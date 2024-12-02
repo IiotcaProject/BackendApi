@@ -1,9 +1,16 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/internship
+    url: jdbc:postgresql://localhost:5432/postgres0
     username: postgres
     password: password
   jpa:
     hibernate:
       ddl-auto: create
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui
+    operations-sorter: alpha # Optional: Sort operations alphabetically
+    tags-sorter: alpha
