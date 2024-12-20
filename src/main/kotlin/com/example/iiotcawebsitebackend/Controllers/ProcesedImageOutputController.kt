@@ -2,30 +2,38 @@ package com.example.iiotcawebsitebackend.Controllers
 
 
 
+import com.example.iiotcawebsitebackend.DTO.DoorEntity
 import com.example.iiotcawebsitebackend.DTO.OpenSignalDto
 import com.example.iiotcawebsitebackend.DTO.ProcesedImageDto
+import com.example.iiotcawebsitebackend.Repository.DoorRepository
 import com.example.iiotcawebsitebackend.Services.OpenSignalService
 import com.example.iiotcawebsitebackend.Services.ProcesedImageOutputService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.function.Supplier
 
 @RestController
 @RequestMapping("/api/procesedImageOutput")
 @CrossOrigin(origins = ["*"])
 class ProcesedImageOutputController @Autowired constructor(
     private val service: ProcesedImageOutputService,
-    private val service2 : OpenSignalService
+    private val service2 : OpenSignalService,
+    private val doorRepository: DoorRepository
 ) {
     @GetMapping("/getOpenSignal")
-    fun getOpenSignal(): ResponseEntity<Void> {
+    fun getOpenSignal(): ResponseEntity<Int> {
         val lastImage = service.getLastProcessedImage()
-        return if ((lastImage.isPresent && lastImage.get().pastFramesDetection >= 6 && lastImage.get().pastFramesRecognition >= 6) || (service2.returnLast() != null && service2.returnLast()!!.open.equals(true))) {
+        val lastDoorEntity: DoorEntity = doorRepository.findAll().stream().findFirst().orElseThrow {
+            IllegalStateException("Number of doors is not set. Please set it first.")
+        }
+        return if ((lastImage.isPresent && lastImage.get().pastFramesDetection >= 6 && lastImage.get().pastFramesRecognition >= 6) || (service2.returnLast() != null && service2.returnLast()!!.open)
+        ) {
             service2.create(OpenSignalDto(open = false))
-            ResponseEntity(HttpStatus.OK)
+            ResponseEntity.ok(lastDoorEntity.openDoor) // Return the open door value with HTTP 200 OK
         } else {
-            ResponseEntity(HttpStatus.EXPECTATION_FAILED)
+            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build()
         }
     }
     @PostMapping

@@ -9,5 +9,5 @@ data class ProcesedImageDto(
     var faceRecognized:Boolean = false,
     var recognizedPeople : List<String> = emptyList(),
     var nrOfPastFramesWithDetection : Int = 0,
-    var nrOfPastFramesWithRecognition : Int = 0
+    var nrOfPastFramesWithRecognition : Int = 0,
 )
