@@ -11,5 +11,6 @@ data class UnprocesedImageInput(
     @Column(length = 10000000)
     var unprocesedImageList: String  = "",
 
+    var  doorId : Long = 0,
     var dateTime : Timestamp =Timestamp(System.currentTimeMillis())
 )

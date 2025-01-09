@@ -59,9 +59,10 @@ class ProcesedImageOutputService @Autowired constructor(
         val recognizedPeople = dto.recognizedPeople
         val nrOfPastFramesWithDetection = dto.nrOfPastFramesWithDetection
         val nrOfPastFramesWithRecognition = dto.nrOfPastFramesWithRecognition
+        val doorId = dto.doorId
         return ProcesedImageOutput( faceDetected = faceDetected, dateTime = dateTime,
             faceRecognized = faceRecognized, recognizedPeople = recognizedPeople, pastFramesDetection = nrOfPastFramesWithDetection,
-            pastFramesRecognition = nrOfPastFramesWithRecognition)
+            pastFramesRecognition = nrOfPastFramesWithRecognition, doorId = doorId)
     }
 
     private fun mapToDto(entity: ProcesedImageOutput): ProcesedImageDto {
@@ -72,9 +73,11 @@ class ProcesedImageOutputService @Autowired constructor(
         val peopleRecognized = entity.recognizedPeople
         val nrOfPastFramesWithDetection = entity.pastFramesDetection
         val nrOfPastFramesWithRecognition = entity.pastFramesRecognition
+        val doorId = entity.doorId
         return ProcesedImageDto( dateTime = dateTime, faceDetected = faceDetected,
             recognizedPeople = peopleRecognized, faceRecognized = faceRecognized, nrOfPastFramesWithDetection = nrOfPastFramesWithDetection,
-            nrOfPastFramesWithRecognition = nrOfPastFramesWithRecognition)
+            nrOfPastFramesWithRecognition = nrOfPastFramesWithRecognition,
+            doorId = doorId)
     }
 }
 

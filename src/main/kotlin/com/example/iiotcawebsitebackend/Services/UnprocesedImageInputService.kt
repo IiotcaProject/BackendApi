@@ -46,7 +46,8 @@ class UnprocesedImageInputService @Autowired constructor(
         val imageList = dto.photoList
         return UnprocesedImageInput(
             unprocesedImageList = imageList,
-            dateTime = Timestamp.from(dto.dateTime)
+            dateTime = Timestamp.from(dto.dateTime),
+            doorId = dto.doorId
         )
     }
 
@@ -54,7 +55,8 @@ class UnprocesedImageInputService @Autowired constructor(
         val photoList = entity.unprocesedImageList
         return UnprocesedImageDto(
             photoList = photoList,
-            dateTime = entity.dateTime.toInstant()
+            dateTime = entity.dateTime.toInstant(),
+            doorId = entity.doorId
         )
     }
 }

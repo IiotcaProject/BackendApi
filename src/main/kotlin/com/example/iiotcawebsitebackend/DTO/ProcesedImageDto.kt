@@ -10,4 +10,5 @@ data class ProcesedImageDto(
     var recognizedPeople : List<String> = emptyList(),
     var nrOfPastFramesWithDetection : Int = 0,
     var nrOfPastFramesWithRecognition : Int = 0,
+    var doorId : Long = 0
 )

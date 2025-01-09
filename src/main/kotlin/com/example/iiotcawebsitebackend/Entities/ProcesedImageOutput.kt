@@ -18,5 +18,7 @@ data class ProcesedImageOutput(
     @ElementCollection
     var recognizedPeople : List<String> = emptyList(),
     var pastFramesDetection : Int = 0,
-    var pastFramesRecognition : Int = 0
+    var pastFramesRecognition : Int = 0,
+
+    var doorId : Long = 0
 )
