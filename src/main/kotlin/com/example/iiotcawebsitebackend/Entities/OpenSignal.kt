@@ -10,7 +10,8 @@ data class OpenSignal(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id : Int  = 0,
-    var open : Boolean = false
+    var open : Boolean = false,
+    var doorId:Int = -1
 
 ) {
 }

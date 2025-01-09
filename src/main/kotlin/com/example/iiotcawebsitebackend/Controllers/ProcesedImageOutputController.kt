@@ -25,15 +25,12 @@ class ProcesedImageOutputController @Autowired constructor(
     @GetMapping("/getOpenSignal")
     fun getOpenSignal(): ResponseEntity<Int> {
         val lastImage = service.getLastProcessedImage()
-        val lastDoorEntity: DoorEntity = doorRepository.findAll().stream().findFirst().orElseThrow {
-            IllegalStateException("Number of doors is not set. Please set it first.")
-        }
         return if (lastImage.isPresent && lastImage.get().pastFramesDetection >= 6 && lastImage.get().pastFramesRecognition >= 6) {
             service2.create(OpenSignalDto(open = false))
             ResponseEntity.ok(lastImage.get().doorId.toInt())
         } else if (service2.returnLast() != null && service2.returnLast()!!.open) {
             service2.create(OpenSignalDto(open = false))
-            ResponseEntity.ok(lastDoorEntity.openDoor)
+            ResponseEntity.ok(service2.returnLast()!!.doorId)
         } else {
             ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build()
         }

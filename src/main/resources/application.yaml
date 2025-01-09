@@ -7,6 +7,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres0
     username: postgres
     password: password
+    hikari:
+      maximum-pool-size: 20        # Set the maximum number of connections in the pool
+      minimum-idle: 10               # Minimum number of idle connections
+      idle-timeout: 3000000           # Connection idle timeout in milliseconds
+      max-lifetime: 1800000         # Maximum lifetime of a connection in milliseconds
+      connection-timeout: 3000000     # Timeout to acquire a connection in milliseconds
   jpa:
     hibernate:
       ddl-auto: create

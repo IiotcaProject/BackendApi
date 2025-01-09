@@ -4,15 +4,22 @@ import com.example.iiotcawebsitebackend.DTO.ProcesedImageDto
 import com.example.iiotcawebsitebackend.Entities.ProcesedImageOutput
 import com.example.iiotcawebsitebackend.Repositories.ProcesedImageOutputRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
+import java.time.Instant
 import java.util.*
 
 @Service
 class ProcesedImageOutputService @Autowired constructor(
     private val repository: ProcesedImageOutputRepository
 ) {
-
+    @Scheduled(fixedRate = 10000) // Run every 20 seconds
+    fun cleanupOldRecords() {
+        val cutoffTime = Timestamp.from(Instant.now().minusSeconds(20))
+        repository.deleteOlderThan(cutoffTime)
+        println("Deleted records older than $cutoffTime")
+    }
     fun create(dto: ProcesedImageDto): ProcesedImageDto {
         val entity = mapToEntity(dto)
         repository.save(entity)

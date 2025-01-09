@@ -4,15 +4,21 @@ import com.example.iiotcawebsitebackend.DTO.UnprocesedImageDto
 import com.example.iiotcawebsitebackend.Entities.UnprocesedImageInput
 import com.example.iiotcawebsitebackend.Repository.UnprocesedImageInputRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
+import java.time.Instant
 import java.util.*
 
 @Service
 class UnprocesedImageInputService @Autowired constructor(
     private val repository: UnprocesedImageInputRepository
 ) {
-
+    @Scheduled(fixedRate = 10000) // Run every 1 minute
+    fun cleanOldRecords() {
+        val oneMinuteAgo = Timestamp.from(Instant.now().minusSeconds(20))
+        repository.deleteOldRecords(oneMinuteAgo)
+    }
     fun create(dto:UnprocesedImageDto): UnprocesedImageDto {
         val entity = mapToEntity(dto)
         val savedEntity = repository.save(entity)

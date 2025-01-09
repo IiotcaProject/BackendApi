@@ -13,6 +13,7 @@ class OpenSignalService @Autowired constructor(
     fun create(openSignalDto : OpenSignalDto){
         val openSignal : OpenSignal = OpenSignal()
         openSignal.open = openSignalDto.open
+        openSignal.doorId = openSignalDto.doorId
         repository.save(openSignal)
     }
 
